@@ -1,0 +1,17 @@
+
+Claro! Aqui vai um resumo das três árvores:
+
+1. Árvore Rubro-Negra (Red-Black Tree)
+O que é: Árvore binária de busca balanceada onde cada nó é vermelho ou preto.
+Para que serve: Usada em tabelas de símbolos, conjuntos e mapas para garantir tempos de busca consistentes e balanceamento automático.
+Como funciona: Mantém o equilíbrio com regras de cor e rotações, garantindo uma profundidade controlada e operações eficientes (𝑂(log𝑛))
+
+2. Árvore B
+O que é: Árvore balanceada multiway (vários filhos por nó) com nós que podem armazenar múltiplas chaves.
+Para que serve: Ideal para armazenamento e acesso a dados em sistemas de banco de dados e arquivos.
+Como funciona: Minimiza o número de acessos ao disco organizando dados em blocos grandes, com busca e inserção em 𝑂(log 𝑛)
+
+3. Árvore B+
+O que é: Variação da árvore B, onde apenas os nós-folha armazenam os valores (e estão encadeados entre si).
+Para que serve: Ampla utilização em bancos de dados para buscas sequenciais e intervalos ordenados.
+Como funciona: Permite buscas eficientes e rápidas de intervalos graças à estrutura de nós-folha encadeada, mantendo a eficiência de O(logn).
