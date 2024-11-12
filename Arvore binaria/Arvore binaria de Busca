@@ -1,0 +1,114 @@
+class Produto:
+    def __init__(self, id, nome, descricao, preco):
+        self.id = id
+        self.nome = nome
+        self.descricao = descricao
+        self.preco = preco
+
+class Node:
+    def __init__(self, produto):
+        self.produto = produto
+        self.left = None
+        self.right = None
+
+class BST:
+    def __init__(self):
+        self.root = None
+
+    # Inserção
+    def inserir(self, produto):
+        if self.root is None:
+            self.root = Node(produto)
+        else:
+            self._inserir_recursive(self.root, produto)
+
+    def _inserir_recursive(self, node, produto):
+        if produto.id < node.produto.id:
+            if node.left is None:
+                node.left = Node(produto)
+            else:
+                self._inserir_recursive(node.left, produto)
+        else:
+            if node.right is None:
+                node.right = Node(produto)
+            else:
+                self._inserir_recursive(node.right, produto)
+
+    # Busca
+    def buscar(self, id):
+        return self._buscar_recursive(self.root, id)
+
+    def _buscar_recursive(self, node, id):
+        if node is None or node.produto.id == id:
+            return node
+        if id < node.produto.id:
+            return self._buscar_recursive(node.left, id)
+        else:
+            return self._buscar_recursive(node.right, id)
+
+    # Remoção
+    def remover(self, id):
+        self.root = self._remover_recursive(self.root, id)
+
+    def _remover_recursive(self, node, id):
+        if node is None:
+            return node
+        if id < node.produto.id:
+            node.left = self._remover_recursive(node.left, id)
+        elif id > node.produto.id:
+            node.right = self._remover_recursive(node.right, id)
+        else:
+            # Caso 1: Nó sem filhos
+            if node.left is None and node.right is None:
+                node = None
+            # Caso 2: Nó com um filho
+            elif node.left is None:
+                node = node.right
+            elif node.right is None:
+                node = node.left
+            # Caso 3: Nó com dois filhos
+            else:
+                min_larger_node = self._find_min(node.right)
+                node.produto = min_larger_node.produto
+                node.right = self._remover_recursive(node.right, min_larger_node.produto.id)
+        return node
+
+    # Encontrar o menor valor na subárvore
+    def _find_min(self, node):
+        while node.left is not None:
+            node = node.left
+        return node
+
+    # Listar produtos em ordem crescente de ID
+    def listar_ordem(self):
+        self._in_order_recursive(self.root)
+
+    def _in_order_recursive(self, node):
+        if node:
+            self._in_order_recursive(node.left)
+            produto = node.produto
+            print(f"ID: {produto.id}, Nome: {produto.nome}, Preço: {produto.preco}")
+            self._in_order_recursive(node.right)
+
+# Exemplo de uso
+# Criação da árvore e inserção de produtos
+bst = BST()
+bst.inserir(Produto(30, "Produto A", "Descrição A", 100.00))
+bst.inserir(Produto(20, "Produto B", "Descrição B", 50.00))
+bst.inserir(Produto(40, "Produto C", "Descrição C", 150.00))
+
+# Buscar produto por ID
+produto = bst.buscar(20)
+if produto:
+    print(f"Produto encontrado: {produto.produto.nome}, Preço: {produto.produto.preco}")
+else:
+    print("Produto não encontrado.")
+
+# Listar todos os produtos em ordem crescente de ID
+print("\nProdutos em ordem crescente de ID:")
+bst.listar_ordem()
+
+# Remover um produto
+bst.remover(20)
+print("\nProdutos após remoção do ID 20:")
+bst.listar_ordem()
